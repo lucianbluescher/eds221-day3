@@ -187,3 +187,47 @@ if(species[i]== "dog") {
 
  big_cats
 total_cats 
+
+# for loops to iterate accross columns of data frames
+(mtcars)
+
+# create empty vector to store values
+mean_mtcars <- vector(mode = "numeric", length = ncol(mtcars))
+
+for (i in 1:ncol(mtcars)) {
+  mean_val <- mean(mtcars[[i]], na.rm = TRUE)
+  mean_mtcars[i] <- mean_val
+}
+
+mean_mtcars
+
+# A loop for over columns with a condition
+
+library(palmerpenguins)
+
+
+for (i in seq_along(penguins)) {
+  if (is.numeric(penguins[[i]])) {
+    penguin_median <- median(penguins[[i]], na.rm = TRUE)
+    print(penguin_median)
+}   else {
+    print("data not numeric")
+}
+}
+
+# Functional Programming
+# apply() function iterates over columns or rows
+# Rewrite our for loop for finding mean values of the columns in mtcars
+apply (X = mtcars, MARGIN = 2, FUN = mean) # apply the FUNction mean across the margin columns in the matrix mtcars
+apply (mtcars, 2, mean)
+apply (FUN = mean, X = mtcars, 2)
+
+library(tidyverse)
+
+# Palmer penguins medians but functionally
+
+penguin_summary <- penguins |>
+  group_by(species) |>
+  summarise(across(where(is.numeric), mean, na.rm = TRUE))
+
+penguin_summary
